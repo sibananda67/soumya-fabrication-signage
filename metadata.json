@@ -1,0 +1,6 @@
+{
+  "name": "Soumya Fabrication & Signage",
+  "description": "Custom GI products, precision metal fabrication, GSB & LED signage, flex printing, and exhibition event structures.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
