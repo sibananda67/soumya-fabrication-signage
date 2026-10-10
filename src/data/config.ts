@@ -4,14 +4,14 @@
  */
 
 export const BUSINESS_CONFIG = {
-  // Working brand identity (easily customizable)
-  brandName: "Soumya Fabrication & Signage",
-  brandShortName: "Soumya Fab",
-  tagline: "Built in Metal. Made to Stand Out.",
-  subTagline: "Custom GI Products, Precision Fabrication, LED Signage and Creative Event Solutions — Built Around Your Requirements.",
+  // Brand identity
+  brandName: "MAA LAXMI STEEL & SUPPLIERS",
+  brandShortName: "Maa Laxmi Steel",
+  tagline: "Quality Steel. Trusted Supply. Custom Solutions.",
+  subTagline: "Your Partner for GI Products, Metal Fabrication, Steel Frames, Signage and Custom-Built Solutions.",
 
   // Contact Information (Verified details)
-  ownerName: "Soumya Kumar",
+  ownerName: "Maa Laxmi Steel & Suppliers",
   phoneDisplay: "+91 86589 90058",
   phoneRaw: "+918658990058",
   email: "soumyakumar2002@gmail.com",
@@ -19,28 +19,27 @@ export const BUSINESS_CONFIG = {
 
   // Business Operational Note (Configurable)
   operationalHours: "Monday – Saturday: 9:00 AM – 7:30 PM (IST)",
-  responseTime: "Quotes typically shared within business hours upon requirement review",
+  responseTime: "Quotes shared promptly upon requirement review",
 
   // Main navigation anchors
   navLinks: [
     { label: "Home", href: "#hero" },
     { label: "Products", href: "#products" },
-    { label: "Custom Fabrication", href: "#fabrication" },
-    { label: "Signage & Print", href: "#signage" },
-    { label: "Event Stalls", href: "#events" },
+    { label: "Fabrication", href: "#fabrication" },
+    { label: "Signage", href: "#signage" },
+    { label: "Events & Stalls", href: "#events" },
     { label: "Gallery", href: "#gallery" },
-    { label: "How It Works", href: "#how-it-works" },
     { label: "About", href: "#about" },
     { label: "Contact", href: "#contact" },
   ],
 
   // Service Core Pillars
   coreServices: [
-    "GI Products",
-    "Custom Fabrication",
-    "LED Signage",
-    "Flex Printing",
-    "Event Structures",
+    "GI Sheets & Boxes",
+    "Metal Fabrication",
+    "Steel Frames",
+    "Signage & Printing",
+    "Cabins & Stalls",
   ],
 };
 

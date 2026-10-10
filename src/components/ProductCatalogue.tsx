@@ -2,8 +2,10 @@ import React, { useState, useMemo } from 'react';
 import { CATALOGUE_ITEMS, CATEGORIES, ProductItem } from '../data/catalogue';
 import { IndustrialArt } from './IndustrialArt';
 import { ProductDetailModal } from './ProductDetailModal';
-import { getWhatsAppUrl } from '../data/config';
+import { BUSINESS_CONFIG, getWhatsAppUrl } from '../data/config';
 import { Search, SlidersHorizontal, MessageSquare, ArrowUpRight, Ruler } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { ODIA_PRODUCT_DETAILS } from '../data/translations';
 
 interface ProductCatalogueProps {
   onSelectForGeneralEnquiry: (productName: string) => void;
@@ -12,9 +14,30 @@ interface ProductCatalogueProps {
 export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
   onSelectForGeneralEnquiry,
 }) => {
+  const { language, t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeModalProduct, setActiveModalProduct] = useState<ProductItem | null>(null);
+
+  // Helper to get localized category tab label
+  const getCategoryTabLabel = (catId: string, defaultLabel: string) => {
+    switch (catId) {
+      case 'all':
+        return t.products.all;
+      case 'gi-metal':
+        return t.products.giCategory;
+      case 'frames-structures':
+        return t.products.framesCategory;
+      case 'specialty':
+        return t.products.specialtyCategory;
+      case 'signage-print':
+        return t.products.signageCategory;
+      case 'event-solutions':
+        return t.products.eventsCategory;
+      default:
+        return defaultLabel;
+    }
+  };
 
   // Filter products by category and search text
   const filteredProducts = useMemo(() => {
@@ -22,35 +45,40 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
       const matchesCategory =
         selectedCategory === 'all' || item.category === selectedCategory;
       const q = searchQuery.toLowerCase().trim();
+      const odiaInfo = ODIA_PRODUCT_DETAILS[item.id];
       const matchesSearch =
         !q ||
         item.name.toLowerCase().includes(q) ||
         item.shortDesc.toLowerCase().includes(q) ||
         item.categoryLabel.toLowerCase().includes(q) ||
-        item.visualTag.toLowerCase().includes(q);
+        item.visualTag.toLowerCase().includes(q) ||
+        (odiaInfo &&
+          (odiaInfo.name.toLowerCase().includes(q) ||
+            odiaInfo.shortDesc.toLowerCase().includes(q) ||
+            odiaInfo.categoryLabel.toLowerCase().includes(q)));
 
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
 
   return (
-    <section id="products" className="py-24 bg-[#F8F7F2] relative">
+    <section id="products" className="py-24 bg-[#F4F9FF] relative border-b border-[#DCE6F0]">
       {/* Background blueprint grid */}
-      <div className="absolute inset-0 bg-industrial-grid opacity-60 pointer-events-none" />
+      <div className="absolute inset-0 bg-industrial-grid opacity-50 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#E6E2D9]">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#DCE6F0]">
           <div>
-            <div className="text-xs font-mono uppercase tracking-widest text-[#E96524] mb-2 font-semibold">
-              FABRICATION CATALOGUE
+            <div className="text-xs font-mono uppercase tracking-widest text-[#2477C8] font-bold mb-2">
+              {t.products.kicker}
             </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-[#252824] tracking-tight">
-              Products & Fabrications
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#17365D] tracking-tight">
+              {t.products.title}
             </h2>
           </div>
-          <p className="text-sm text-[#6F746F] max-w-md leading-relaxed">
-            From galvanized iron utility boxes and structural frames to illuminated signage and event setups — all fabricated to your exact dimensional requirements.
+          <p className="text-sm text-[#64748B] max-w-md leading-relaxed font-normal">
+            {t.products.subtitle}
           </p>
         </div>
 
@@ -59,47 +87,48 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
           <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6F746F]" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#64748B]" />
               <input
                 type="text"
-                placeholder="Search products (e.g., GI Boxes, LED, Khatia, Chimneys)..."
+                placeholder={t.products.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-white border border-[#E6E2D9] rounded-md pl-10 pr-4 py-2.5 text-xs text-[#252824] placeholder-[#6F746F]/70 focus:outline-none focus:border-[#E96524] transition-colors shadow-xs"
+                className="w-full bg-white border border-[#DCE6F0] rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#27364B] placeholder-[#94A3B8] focus:outline-none focus:border-[#2477C8] focus:ring-2 focus:ring-[#2477C8]/20 transition-all shadow-xs"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#6F746F] hover:text-[#252824]"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#64748B] hover:text-[#17365D] cursor-pointer"
                 >
-                  Clear
+                  {language === 'or' ? 'ଲିଭାନ୍ତୁ' : 'Clear'}
                 </button>
               )}
             </div>
 
             {/* Results Counter */}
-            <div className="text-xs font-mono text-[#6F746F]">
-              Showing <span className="text-[#252824] font-semibold">{filteredProducts.length}</span> of {CATALOGUE_ITEMS.length} items
+            <div className="text-xs font-mono text-[#64748B]">
+              {t.products.showing} <span className="text-[#17365D] font-bold">{filteredProducts.length}</span> {t.products.of} {CATALOGUE_ITEMS.length} {t.products.items}
             </div>
           </div>
 
-          {/* Interactive Category Tabs (Segmented control) */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
+          {/* Interactive Category Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
             {CATEGORIES.map((cat) => {
               const isActive = selectedCategory === cat.id;
+              const label = getCategoryTabLabel(cat.id, cat.label);
               return (
                 <button
                   key={cat.id}
                   type="button"
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-3.5 py-2 text-xs font-semibold rounded-md whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+                  className={`px-4 py-2 text-xs font-bold rounded-lg whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#E96524] text-white shadow-sm'
-                      : 'bg-white text-[#252824] hover:bg-[#F4F1EA] border border-[#E6E2D9]'
+                      ? 'bg-[#2477C8] text-white shadow-sm shadow-[#2477C8]/30'
+                      : 'bg-white text-[#27364B] hover:bg-[#DCEEFF]/50 border border-[#DCE6F0]'
                   }`}
                 >
-                  {cat.label}
+                  {label}
                 </button>
               );
             })}
@@ -108,11 +137,11 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
 
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="py-20 text-center rounded-lg border border-[#E6E2D9] bg-white p-8 shadow-xs">
-            <SlidersHorizontal className="w-8 h-8 text-[#6F746F] mx-auto mb-3" />
-            <h3 className="text-base font-bold text-[#252824] mb-1">No products match your search</h3>
-            <p className="text-xs text-[#6F746F] mb-4">
-              Try adjusting your search terms or view all categories.
+          <div className="py-20 text-center rounded-2xl border border-[#DCE6F0] bg-white p-8 shadow-xs">
+            <SlidersHorizontal className="w-8 h-8 text-[#94A3B8] mx-auto mb-3" />
+            <h3 className="text-base font-bold text-[#17365D] mb-1">{t.products.noResults}</h3>
+            <p className="text-xs text-[#64748B] mb-4">
+              {t.products.noResultsDesc}
             </p>
             <button
               type="button"
@@ -120,22 +149,28 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
                 setSelectedCategory('all');
                 setSearchQuery('');
               }}
-              className="px-4 py-2 text-xs font-semibold bg-[#F4F1EA] hover:bg-[#E6E2D9] text-[#252824] rounded transition-colors"
+              className="px-4 py-2 text-xs font-bold bg-[#DCEEFF] text-[#2477C8] hover:bg-[#2477C8] hover:text-white rounded-lg transition-colors cursor-pointer"
             >
-              Reset Filters
+              {t.products.resetFilters}
             </button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product) => {
+              const odiaDetails = ODIA_PRODUCT_DETAILS[product.id];
+              const displayName = (language === 'or' && odiaDetails?.name) ? odiaDetails.name : product.name;
+              const displayCategory = (language === 'or' && odiaDetails?.categoryLabel) ? odiaDetails.categoryLabel : product.categoryLabel;
+              const displayDesc = (language === 'or' && odiaDetails?.shortDesc) ? odiaDetails.shortDesc : product.shortDesc;
+              const displayTag = (language === 'or' && odiaDetails?.visualTag) ? odiaDetails.visualTag : product.visualTag;
+
               return (
                 <div
                   key={product.id}
-                  className="group relative bg-white border border-[#E6E2D9] hover:border-[#E96524]/40 rounded-lg overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-xs hover:shadow-md"
+                  className="group relative bg-white border border-[#DCE6F0] hover:border-[#2477C8]/40 rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-md"
                 >
                   {/* Top Graphic Illustration */}
                   <div
-                    className="cursor-pointer"
+                    className="cursor-pointer bg-[#F8FAFC] border-b border-[#DCE6F0]/80"
                     onClick={() => setActiveModalProduct(product)}
                   >
                     <IndustrialArt
@@ -145,39 +180,39 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
-                      {/* Zero-Pill Unboxed Metadata */}
-                      <div className="flex items-center gap-2 text-[11px] font-mono text-[#6F746F] mb-2 font-medium">
-                        <span>{product.categoryLabel}</span>
-                        <span aria-hidden="true" className="text-[#6F746F]/50">·</span>
-                        <span className="text-[#6F746F]/80">{product.visualTag}</span>
+                      {/* Metadata */}
+                      <div className="flex items-center gap-2 text-[11px] font-mono text-[#64748B] mb-2 font-medium">
+                        <span className="text-[#2477C8] font-bold">{displayCategory}</span>
+                        <span aria-hidden="true" className="text-[#CBD5E1]">·</span>
+                        <span>{displayTag}</span>
                       </div>
 
                       {/* Product Name */}
                       <h3
                         onClick={() => setActiveModalProduct(product)}
-                        className="text-lg font-bold text-[#252824] group-hover:text-[#E96524] transition-colors cursor-pointer mb-2"
+                        className="text-lg font-bold text-[#17365D] group-hover:text-[#2477C8] transition-colors cursor-pointer mb-2"
                       >
-                        {product.name}
+                        {displayName}
                       </h3>
 
                       {/* Description */}
-                      <p className="text-xs text-[#6F746F] leading-relaxed line-clamp-3 mb-4">
-                        {product.shortDesc}
+                      <p className="text-xs text-[#64748B] leading-relaxed line-clamp-3 mb-4">
+                        {displayDesc}
                       </p>
                     </div>
 
                     {/* Footer Actions */}
-                    <div className="pt-4 border-t border-[#E6E2D9] space-y-3">
+                    <div className="pt-4 border-t border-[#DCE6F0] space-y-3">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="font-mono text-[11px] text-[#6F746F]">
-                          Price on Request
+                        <span className="font-mono text-[11px] text-[#64748B] font-semibold">
+                          {t.products.priceOnRequest}
                         </span>
                         {product.hasCustomSizing && (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#E96524] font-medium">
+                          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#2477C8] font-bold">
                             <Ruler className="w-3 h-3" />
-                            Custom Sizes
+                            {t.products.customSizing}
                           </span>
                         )}
                       </div>
@@ -186,22 +221,22 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
                         <button
                           type="button"
                           onClick={() => setActiveModalProduct(product)}
-                          className="flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-semibold text-[#252824] bg-[#F8F7F2] hover:bg-[#E96524] hover:text-white border border-[#E6E2D9] rounded transition-all cursor-pointer shadow-2xs"
+                          className="flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-bold text-white bg-[#2477C8] hover:bg-[#1d63a8] rounded-lg transition-all cursor-pointer shadow-xs"
                         >
-                          <span>Enquire Now</span>
-                          <ArrowUpRight className="w-3 h-3" />
+                          <span>{t.products.enquireNow}</span>
+                          <ArrowUpRight className="w-3.5 h-3.5" />
                         </button>
 
                         <a
                           href={getWhatsAppUrl(
-                            `Hello Soumya Kumar, I would like to inquire about ${product.name} (${product.categoryLabel}). Please share details and pricing.`
+                            `Hello ${BUSINESS_CONFIG.brandName}, I would like to inquire about ${displayName} (${displayCategory}). Please share details and pricing.`
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-1.5 py-2 px-3 text-xs font-semibold text-white bg-[#25D366] hover:bg-[#20ba59] rounded transition-all shadow-2xs"
+                          className="flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-bold text-[#0F5132] hover:text-white bg-[#D1E7DD] hover:bg-[#25D366] border border-[#BADBCC] rounded-lg transition-all"
                         >
                           <MessageSquare className="w-3.5 h-3.5" />
-                          <span>WhatsApp</span>
+                          <span>{t.products.whatsapp}</span>
                         </a>
                       </div>
                     </div>
@@ -222,3 +257,4 @@ export const ProductCatalogue: React.FC<ProductCatalogueProps> = ({
     </section>
   );
 };
+

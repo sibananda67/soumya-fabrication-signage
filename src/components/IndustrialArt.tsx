@@ -9,23 +9,23 @@ interface IndustrialArtProps {
 
 export const IndustrialArt: React.FC<IndustrialArtProps> = ({
   type,
-  accentColor = '#E96524',
+  accentColor = '#2477C8',
   className = '',
 }) => {
   return (
     <div
-      className={`relative w-full h-full min-h-[220px] bg-gradient-to-br from-[#F4F1EA] via-[#EDE9DF] to-[#E6E2D9] flex items-center justify-center overflow-hidden p-6 border-b border-[#E6E2D9] select-none ${className}`}
+      className={`relative w-full h-full min-h-[220px] bg-gradient-to-br from-[#F8FAFC] via-[#EEF5FC] to-[#E3EFFB] flex items-center justify-center overflow-hidden p-6 border-b border-[#DCE6F0] select-none ${className}`}
     >
       {/* Background blueprint grid lines */}
-      <div className="absolute inset-0 bg-industrial-grid opacity-70" />
+      <div className="absolute inset-0 bg-industrial-grid opacity-60" />
 
       {/* Technical coordinate markings */}
-      <div className="absolute top-3 left-3 text-[10px] font-mono text-[#6F746F] uppercase tracking-widest flex items-center gap-1.5 font-semibold">
+      <div className="absolute top-3 left-3 text-[10px] font-mono text-[#64748B] uppercase tracking-widest flex items-center gap-1.5 font-semibold">
         <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accentColor }} />
-        <span>SPEC-REV // FAB-ENG</span>
+        <span>SPEC-REV // STEEL-FAB</span>
       </div>
-      <div className="absolute bottom-3 right-3 text-[9px] font-mono text-[#6F746F] uppercase font-semibold">
-        PRECISION METALCRAFT
+      <div className="absolute bottom-3 right-3 text-[9px] font-mono text-[#94A3B8] uppercase font-bold">
+        PRECISION STEELWORK
       </div>
 
       {/* Centered Graphic Render */}

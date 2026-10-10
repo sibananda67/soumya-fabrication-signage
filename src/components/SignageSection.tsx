@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, Sun, Moon, Sparkles, Printer, Layers } from 'lucide-react';
-import { getWhatsAppUrl } from '../data/config';
+import { ArrowUpRight, Sun, Moon } from 'lucide-react';
+import { BUSINESS_CONFIG } from '../data/config';
+import { useLanguage } from '../context/LanguageContext';
 
 interface SignageSectionProps {
   onOpenQuoteModal: (productName?: string) => void;
@@ -8,128 +9,132 @@ interface SignageSectionProps {
 
 export const SignageSection: React.FC<SignageSectionProps> = ({ onOpenQuoteModal }) => {
   const [isNightMode, setIsNightMode] = useState(true);
+  const { language, t } = useLanguage();
 
   const signageTypes = [
     {
       id: 'led-acrylic',
-      name: 'Illuminated 3D LED Boards',
-      tag: 'Channel Letters · ACP Base',
-      desc: 'Precision-routed acrylic letters with internal high-lumen LED modules mounted on aluminum composite panels.',
+      name: language === 'or' ? 'ଆଲୋକିତ ୩ଡି ଏଲ୍.ଇ.ଡି. ବୋର୍ଡ' : 'Illuminated 3D LED Boards',
+      tag: language === 'or' ? 'ଚ୍ୟାନେଲ୍ ଲେଟର୍ · ଏସିପି ବେସ୍' : 'Channel Letters · ACP Base',
+      desc: language === 'or'
+        ? 'ପ୍ରିସିସନ୍ ରୁଟେଡ୍ ଏକ୍ରିଲିକ୍ ଅକ୍ଷର, ଏସିପି ପ୍ୟାନେଲ୍ ଓ ୱାଟରପ୍ରୁଫ୍ ଏଲ୍.ଇ.ଡି. ମଡ୍ୟୁଲ୍ ଦ୍ୱାରା ନିର୍ମିତ।'
+        : 'Precision-routed acrylic letters with internal high-lumen LED modules mounted on aluminum composite panels.',
       materials: ['Cast Acrylic', 'ACP Sheet', 'IP65 LED Strips', 'Metal Subframe'],
-      features: ['High night-time visibility', 'Clean 3D front/back illumination', 'Custom font styles'],
+      features: language === 'or'
+        ? ['ରାତ୍ରି ସମୟରେ ଉଚ୍ଚ ଦୃଶ୍ୟମାନତା', 'ପରିଷ୍କାର ୩ଡି ଫ୍ରଣ୍ଟ/ବ୍ୟାକ୍ ଆଲୋକ', 'କଷ୍ଟମ୍ ଫଣ୍ଟ ଶୈଳୀ']
+        : ['High night-time visibility', 'Clean 3D front/back illumination', 'Custom font styles'],
     },
     {
       id: 'gsb-backlit',
-      name: 'Glow Sign Boards (GSB)',
-      tag: 'Backlit Translucent Flex',
-      desc: 'Heavy-gauge welded metal light box enclosures fitted with internal lighting channels and tensioned graphic flex faces.',
+      name: language === 'or' ? 'ଗ୍ଲୋ ସାଇନ୍ ବୋର୍ଡ (ଜି.ଏସ୍.ବି.)' : 'Glow Sign Boards (GSB)',
+      tag: language === 'or' ? 'ବ୍ୟାକଲିଟ୍ ଟ୍ରାନ୍ସଲୁସେଣ୍ଟ ଫ୍ଲେକ୍ସ' : 'Backlit Translucent Flex',
+      desc: language === 'or'
+        ? 'ହେଭି-ଗେଜ୍ ୱେଲ୍ଡେଡ୍ ଆଙ୍ଗେଲ୍ ବକ୍ସ, ଆଭ୍ୟନ୍ତରୀଣ ଆଲୋକ ବ୍ୟବସ୍ଥା ଓ ଟେନସନଡ୍ ଗ୍ରାଫିକ୍ ଫ୍ଲେକ୍ସ।'
+        : 'Heavy-gauge welded metal light box enclosures fitted with internal lighting channels and tensioned graphic flex faces.',
       materials: ['Welded Angle Box', 'Backlit Flex Media', 'Internal Fluorescent/LED Tubes'],
-      features: ['Cost-effective 24/7 visibility', 'Weatherproof enclosure', 'Vivid uniform glow'],
+      features: language === 'or'
+        ? ['୨୪/୭ କମ୍ ଖର୍ଚ୍ଚରେ ଉତ୍କୃଷ୍ଟ ଦୃଶ୍ୟମାନତା', 'ୱେଦରପ୍ରୁଫ୍ ଆବରଣ', 'ସମାନ ଉଜ୍ଜ୍ୱଳ ଆଲୋକ']
+        : ['Cost-effective 24/7 visibility', 'Weatherproof enclosure', 'Vivid uniform glow'],
     },
     {
       id: 'flex-banner',
-      name: 'High-Resolution Flex Printing',
-      tag: 'Wide-Format Graphics',
-      desc: 'Wide-format printing on frontlit and backlit flex media using weather-resistant inks for promotional banners and hoardings.',
+      name: language === 'or' ? 'ହାଇ-ରିଜୋଲ୍ୟୁସନ ଫ୍ଲେକ୍ସ ପ୍ରିଣ୍ଟିଂ' : 'High-Resolution Flex Printing',
+      tag: language === 'or' ? 'ୱାଇଡ୍-ଫର୍ମାଟ୍ ଗ୍ରାଫିକ୍ସ' : 'Wide-Format Graphics',
+      desc: language === 'or'
+        ? 'ପ୍ରମୋସନାଲ ବ୍ୟାନର ଓ ହୋର୍ଡିଂ ପାଇଁ ଫ୍ରଣ୍ଟଲିଟ୍ ଓ ବ୍ୟାକଲିଟ୍ ମିଡିଆରେ ୱେଦରପ୍ରୁଫ୍ ଇଙ୍କ୍ ପ୍ରିଣ୍ଟ।'
+        : 'Wide-format printing on frontlit and backlit flex media using weather-resistant inks for promotional banners and hoardings.',
       materials: ['Star Flex Media', 'UV / Solvent Inks', 'Reinforced Eyelet Borders'],
-      features: ['Vibrant color fidelity', 'Custom roll lengths', 'Quick turnaround'],
+      features: language === 'or'
+        ? ['ଉଜ୍ଜ୍ୱଳ ରଙ୍ଗ ସ୍ପଷ୍ଟତା', 'କଷ୍ଟମ୍ ରୋଲ୍ ଲମ୍ବ', 'ତୁରନ୍ତ ଡେଲିଭରୀ']
+        : ['Vibrant color fidelity', 'Custom roll lengths', 'Quick turnaround'],
     },
   ];
 
   return (
-    <section id="signage" className="py-24 bg-[#0a0b0e] relative border-t border-white/10">
-      {/* Dynamic Ambient Lighting Glow */}
-      <div
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-700 ${
-          isNightMode
-            ? 'bg-radial from-orange-600/15 via-transparent to-transparent'
-            : 'bg-radial from-slate-400/5 via-transparent to-transparent'
-        }`}
-      />
+    <section id="signage" className="py-24 bg-[#F4F9FF] relative border-t border-[#DCE6F0]">
+      {/* Background blueprint grid */}
+      <div className="absolute inset-0 bg-industrial-grid opacity-50 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header with Day/Night Illumination Preview Toggle */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-white/10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#DCE6F0]">
           <div>
-            <div className="text-xs font-mono uppercase tracking-widest text-[#ff5500] mb-2">
-              SIGNAGE & ADVERTISING SOLUTIONS
+            <div className="text-xs font-mono uppercase tracking-widest text-[#2477C8] font-bold mb-2">
+              {t.signage.kicker}
             </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Make Your Brand{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-[#ff5500] to-yellow-400">
-                Impossible to Miss.
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#17365D] tracking-tight">
+              {t.signage.titlePart1}{' '}
+              <span className="text-[#2477C8]">
+                {t.signage.titlePart2}
               </span>
             </h2>
           </div>
 
           <div className="flex items-center gap-4">
             {/* Illumination Simulation Switch */}
-            <div className="flex items-center gap-2 p-1 bg-[#141720] border border-white/10 rounded-md">
-              <span className="text-[11px] font-mono text-zinc-400 px-2">Illumination:</span>
+            <div className="flex items-center gap-1.5 p-1 bg-white border border-[#DCE6F0] rounded-xl shadow-xs">
+              <span className="text-[11px] font-mono text-[#64748B] px-2 font-semibold">
+                {t.signage.lightingPreview}
+              </span>
               <button
                 type="button"
                 onClick={() => setIsNightMode(false)}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   !isNightMode
-                    ? 'bg-white/15 text-white'
-                    : 'text-zinc-400 hover:text-white'
+                    ? 'bg-[#DCEEFF] text-[#2477C8]'
+                    : 'text-[#64748B] hover:text-[#17365D]'
                 }`}
               >
                 <Sun className="w-3.5 h-3.5" />
-                <span>Day</span>
+                <span>{t.signage.day}</span>
               </button>
               <button
                 type="button"
                 onClick={() => setIsNightMode(true)}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   isNightMode
-                    ? 'bg-[#ff5500] text-white shadow-md'
-                    : 'text-zinc-400 hover:text-white'
+                    ? 'bg-[#17365D] text-white shadow-xs'
+                    : 'text-[#64748B] hover:text-[#17365D]'
                 }`}
               >
                 <Moon className="w-3.5 h-3.5" />
-                <span>Night Glow</span>
+                <span>{t.signage.nightGlow}</span>
               </button>
             </div>
           </div>
         </div>
 
         {/* Live Visual Simulation Preview Banner */}
-        <div className="my-8 rounded-lg border border-white/10 overflow-hidden bg-[#0e1017]">
+        <div className="my-8 rounded-2xl border border-[#DCE6F0] overflow-hidden bg-white shadow-sm">
           <div
             className={`p-8 sm:p-12 text-center transition-all duration-700 relative overflow-hidden ${
               isNightMode
-                ? 'bg-gradient-to-b from-zinc-950 via-[#10121a] to-zinc-950 shadow-[inset_0_0_80px_rgba(255,85,0,0.15)]'
-                : 'bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-950'
+                ? 'bg-gradient-to-b from-[#0B1528] via-[#10223D] to-[#0B1528] shadow-[inset_0_0_80px_rgba(36,119,200,0.25)]'
+                : 'bg-gradient-to-b from-[#F4F9FF] to-[#E9F3FC]'
             }`}
           >
-            {/* Background Grid */}
-            <div className="absolute inset-0 bg-industrial-grid opacity-25" />
-
             {/* Simulated 3D Illuminated Lettering */}
             <div className="relative z-10 inline-block my-4">
               <div
-                className={`text-3xl sm:text-5xl md:text-6xl font-black tracking-wider uppercase transition-all duration-500 font-sans ${
+                className={`text-2xl sm:text-4xl md:text-5xl font-black tracking-wider uppercase transition-all duration-500 font-sans ${
                   isNightMode
-                    ? 'text-white drop-shadow-[0_0_25px_rgba(255,85,0,0.9)] scale-[1.02]'
-                    : 'text-zinc-300 drop-shadow-sm'
+                    ? 'text-white drop-shadow-[0_0_30px_rgba(36,119,200,0.9)] scale-[1.02]'
+                    : 'text-[#17365D] drop-shadow-sm'
                 }`}
               >
-                SOUMYA FABRICATION
+                MAA LAXMI STEEL &amp; SUPPLIERS
               </div>
               <div
-                className={`text-xs sm:text-sm font-mono tracking-widest mt-2 uppercase transition-colors duration-500 ${
-                  isNightMode ? 'text-orange-400' : 'text-zinc-400'
+                className={`text-xs sm:text-sm font-mono tracking-widest mt-2 uppercase transition-colors duration-500 font-bold ${
+                  isNightMode ? 'text-blue-300' : 'text-[#64748B]'
                 }`}
               >
-                GSB BOARDS · 3D ACRYLIC LED · FLEX PRINTING
+                {t.signage.simulatedTagline}
               </div>
             </div>
 
-            <div className="text-[11px] font-mono text-zinc-400 mt-4">
-              {isNightMode
-                ? 'Night Illumination Simulation Active — Backlit diffusion & high-intensity LED preview'
-                : 'Daylight View Simulation Active — Natural high-contrast visibility'}
+            <div className="text-[11px] font-mono text-[#64748B] mt-4">
+              {isNightMode ? t.signage.nightDesc : t.signage.dayDesc}
             </div>
           </div>
         </div>
@@ -139,21 +144,21 @@ export const SignageSection: React.FC<SignageSectionProps> = ({ onOpenQuoteModal
           {signageTypes.map((item) => (
             <div
               key={item.id}
-              className="p-6 rounded-lg bg-[#12141c] border border-white/10 hover:border-white/20 transition-all flex flex-col justify-between"
+              className="p-6 rounded-2xl bg-white border border-[#DCE6F0] hover:border-[#2477C8]/40 transition-all flex flex-col justify-between shadow-xs hover:shadow-md"
             >
               <div>
-                <div className="text-[11px] font-mono text-orange-400 uppercase mb-1">
+                <div className="text-[11px] font-mono text-[#2477C8] font-bold uppercase mb-1">
                   {item.tag}
                 </div>
-                <h3 className="text-lg font-bold text-white mb-3">{item.name}</h3>
-                <p className="text-xs text-zinc-300 leading-relaxed mb-4">{item.desc}</p>
+                <h3 className="text-lg font-bold text-[#17365D] mb-3">{item.name}</h3>
+                <p className="text-xs text-[#64748B] leading-relaxed mb-4">{item.desc}</p>
 
                 <div className="space-y-2 mb-6">
-                  <div className="text-[11px] font-mono uppercase text-zinc-400">Highlights</div>
-                  <ul className="space-y-1">
+                  <div className="text-[11px] font-mono uppercase text-[#17365D] font-bold">{t.signage.highlights}</div>
+                  <ul className="space-y-1.5">
                     {item.features.map((feat, idx) => (
-                      <li key={idx} className="text-xs text-zinc-400 flex items-center gap-2">
-                        <span className="w-1 h-1 rounded-full bg-[#ff5500]" />
+                      <li key={idx} className="text-xs text-[#27364B] flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#2477C8]" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -161,14 +166,14 @@ export const SignageSection: React.FC<SignageSectionProps> = ({ onOpenQuoteModal
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                <span className="text-[11px] font-mono text-zinc-400">Price on Request</span>
+              <div className="pt-4 border-t border-[#DCE6F0] flex items-center justify-between">
+                <span className="text-[11px] font-mono text-[#64748B]">{t.products.priceOnRequest}</span>
                 <button
                   type="button"
                   onClick={() => onOpenQuoteModal(item.name)}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#ff5500] hover:text-orange-300 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-[#2477C8] hover:text-[#1d63a8] transition-colors cursor-pointer"
                 >
-                  <span>Enquire Now</span>
+                  <span>{t.products.enquireNow}</span>
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -177,21 +182,21 @@ export const SignageSection: React.FC<SignageSectionProps> = ({ onOpenQuoteModal
         </div>
 
         {/* Bottom CTA Strip */}
-        <div className="mt-12 p-6 rounded-lg bg-gradient-to-r from-orange-950/30 via-zinc-900 to-zinc-950 border border-orange-500/20 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="mt-12 p-6 rounded-2xl bg-white border border-[#DCE6F0] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <h4 className="text-base font-bold text-white mb-1">
-              Need custom dimensions for your storefront or hoarding?
+            <h4 className="text-base font-bold text-[#17365D] mb-1">
+              {t.signage.ctaTitle}
             </h4>
-            <p className="text-xs text-zinc-400">
-              Provide your required board length, height, and lighting preference for an accurate quote.
+            <p className="text-xs text-[#64748B]">
+              {t.signage.ctaDesc}
             </p>
           </div>
           <button
             type="button"
             onClick={() => onOpenQuoteModal('Signage and Printing Inquiry')}
-            className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-white bg-[#ff5500] hover:bg-[#e04b00] rounded-md transition-all shrink-0 cursor-pointer shadow-lg shadow-orange-950/40"
+            className="px-6 py-3 text-xs font-bold uppercase tracking-wider text-white bg-[#2477C8] hover:bg-[#1d63a8] rounded-lg transition-all shrink-0 cursor-pointer shadow-md shadow-[#2477C8]/20"
           >
-            <span>Enquire About Signage</span>
+            <span>{t.signage.ctaBtn}</span>
           </button>
         </div>
       </div>

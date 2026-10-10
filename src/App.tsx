@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LanguageProvider } from './context/LanguageContext';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { ServiceStrip } from './components/ServiceStrip';
@@ -16,7 +17,7 @@ import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { BackToTop } from './components/BackToTop';
 import { QuickQuoteModal } from './components/QuickQuoteModal';
 
-export default function App() {
+function AppContent() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [selectedProductForQuote, setSelectedProductForQuote] = useState('GI Boxes');
   const [formInitialProduct, setFormInitialProduct] = useState('GI Boxes');
@@ -37,8 +38,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0c0d10] text-slate-100 flex flex-col font-sans selection:bg-[#ff5500] selection:text-white">
-      {/* Top Navigation */}
+    <div className="min-h-screen bg-[#F4F9FF] text-[#27364B] flex flex-col font-sans selection:bg-[#2477C8] selection:text-white">
+      {/* Top Navigation with Language Switcher */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} />
 
       {/* Main Content Sections */}
@@ -92,5 +93,13 @@ export default function App() {
         onNavigateToFullForm={handleSelectForGeneralEnquiry}
       />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
